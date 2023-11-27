@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <title>Mapa</title>
+
+    <style>
+        #map {
+            height: 500px;
+        }  
+    </style>  
+
+    <!-- Prueba-->
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap-->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Hojas de estilo de Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Leaflet -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="js/mapa.js"></script>
+
+    <!-- Incluye tu archivo de departamentos -->
+    <script src="js/departamento.js"></script>
+
+    <style>
+        /* Agrega estilos CSS según sea necesario para tu ventana emergente */
+        #ventanaCuestionario {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <!-- Encabezado -->
+    <div class="container-fluid bg-light pt-3 d-none d-lg-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 text-center text-lg-left mb-2 mb-lg-0">
+                </div>
+                <div class="col-lg-6 text-center text-lg-right">
+                    <div class="d-inline-flex align-items-center">
+                        <a class="text-danger px-3" href="">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a class="text-danger px-3" href="">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a class="text-danger px-3" href="">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a class="text-danger px-3" href="">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a class="text-danger pl-3" href="">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Encabezado -->
+
+    <!-- Barra_general -->
+    <div class="container-fluid position-relative nav-bar p-0">
+        <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
+            <nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5">
+                <a href="" class="navbar-brand">
+                    <h1 class="m-0">
+                        <a href="index.html">
+                            <h1 class="m-0" style="color: red;">
+                                <span class="text-dark">ALERTA</span>
+                                <span class="text-danger">ÑAWI</span>
+                            </h1>
+                        </a>
+                    </h1>
+                </a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
+                    <div class="navbar-nav ml-auto py-0">
+                        <a href="index.html" class="nav-item nav-link">INICIO</a>
+                        <a href="abc_contraloria.html" class="nav-item nav-link">ABC CONTRALORIA</a>
+                        <a href="reporte.html" class="nav-item nav-link active">REPORTE</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Barra_general -->
+
+    <!-- Interfaz -->
+    <div class="container-fluid p-0">
+        <div id="header-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="w-100" src="img/carousel-1.jpg" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 900px;">
+                            <h5 class="text-white text-uppercase mb-md-3">Accede a nuestro sitio para reportar emergencias y asegurar ayuda rápida.</h5>
+                            <h3 class="display-3 mb-md-4">
+                                <span class="text-white">ALERTA </span>
+                                <span class="text-danger">ÑAWI</span>
+                            </h3>
+                            <p style="font-size: 16px; color: white;">¡Descubre una nueva forma de informarte! Ahora puedes escuchar las páginas, haciéndolas accesibles para todos, incluso si tienes alguna discapacidad visual.</p>
+                            <p style="font-size: 16px; color: white;">¡Bienvenido a una experiencia inclusiva para cada uno de nosotros!</p>
+                            <p style="font-size: 16px; color: var(--orange);">🎧📚 #InclusiónParaTodos</p>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+    <!-- Interfaz -->
+
+    <!-- Funciones_leer -->
+    <script>
+    // Función para leer el contenido
+    function leerContenido1() {
+    // Obtener el contenido que se desea leer
+    var contenido = "Este mapa está diseñado para ser una herramienta colaborativa que brinda apoyo en situaciones de emergencia, ya sea en eventos naturales como fenómenos meteorológicos extremos o en cualquier otra circunstancia que requiera asistencia. Nos preocupamos por tu seguridad y bienestar, y este mapa ha sido creado con el propósito de facilitar la comunicación y coordinación entre personas dispuestas a ayudar y aquellas que necesitan asistencia. Este mapa te permite señalar tu ubicación y describir tus necesidades o habilidades. Además, proporciona una plataforma para que la comunidad pueda compartir actualizaciones sobre la ayuda enviada y recibida. Creemos en la fuerza de la solidaridad y la importancia de estar conectados en momentos críticos. ¡Gracias por ser parte de esta iniciativa y por contribuir a hacer de nuestra comunidad un lugar más fuerte y unido!";
+
+    
+    // Crear un nuevo objeto de síntesis de voz
+    var synth = window.speechSynthesis;
+    
+    // Crear un nuevo mensaje de síntesis de voz
+    var utterance = new SpeechSynthesisUtterance(contenido);
+    
+    // Reproducir el mensaje
+    synth.speak(utterance);
+    }
+    </script>
+    <!-- Funciones_leer -->
+
+    <!-- Texto -->
+    <div class="container" style="padding: 20px; color: #dc3545; margin-left: 4cm; margin-right: 5cm; text-align: justify;">
+        <h1 style="color: #dc3545; text-align: center;">¡BIENVENIDO!</h1>
+        <button id="leerPaginasOficiales" onclick="leerContenido1()" aria-label="Leer Paginas Oficiales" style="font-size: 24px; background: none; border: none; cursor: pointer; margin: auto; display: block;">
+            🔊
+        </button>
+        <div style="margin-left: 5cm; margin-right: 5cm;">
+            <p style="color: black;">Este mapa está diseñado para ser una herramienta colaborativa que brinda apoyo en situaciones de emergencia, ya sea en eventos naturales como fenómenos meteorológicos extremos o en cualquier otra circunstancia que requiera asistencia. Nos preocupamos por tu seguridad y bienestar, y este mapa ha sido creado con el propósito de facilitar la comunicación y coordinación entre personas dispuestas a ayudar y aquellas que necesitan asistencia. ¿Necesitas ayuda o estás dispuesto/a a ofrecerla? Este mapa te permite señalar tu ubicación y describir tus necesidades o habilidades. Además, proporciona una plataforma para que la comunidad pueda compartir actualizaciones sobre la ayuda enviada y recibida. Creemos en la fuerza de la solidaridad y la importancia de estar conectados en momentos críticos.</p>
+            <p style="color: black;">¡Gracias por ser parte de esta iniciativa y por contribuir a hacer de nuestra comunidad un lugar más fuerte y unido!</p>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+    <!-- Texto -->
+
+    <form method="POST" action="ingreso.php"></form>
+        <!-- Seleccion -->
+        <div class="container-fluid booking mt-5 pb-5">
+            <div class="container pb-3">
+                <div class="bg-light shadow" style="padding: 40px;">
+                    <div class="row align-items-center" style="min-height: 60px;">
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="mb-3 mb-md-0">
+                                        <select id="departamento" class="custom-select px-4" style="height: 47px;">
+                                            <option selected >Departamento</option>
+                                            <option value="amazonas">Amazonas</option>
+                                            <option value="ancash">Ancash</option>
+                                            <option value="apurimac">Apurimac</option>
+                                            <option value="arequipa">Arequipa</option>
+                                            <option value="ayacucho">Ayacucho</option>
+                                            <option value="cajamarca">Cajamarca</option>
+                                            <option value="callao">Callao</option>
+                                            <option value="cusco">Cusco</option>
+                                            <option value="huancavelica">Huancavelica</option>
+                                            <option value="huánuco">Huánuco</option>
+                                            <option value="ica">Ica</option>
+                                            <option value="junin">Junin</option>
+                                            <option value="lalibertad">La Libertad</option>
+                                            <option value="lambayeque">Lambayeque</option>
+                                            <option value="lima">Lima</option>
+                                            <option value="loreto">Loreto</option>
+                                            <option value="madrededios">Madre de Dios</option>
+                                            <option value="moquegua">Moquegua</option>
+                                            <option value="pasco">Pasco</option>
+                                            <option value="piura">Piura</option>
+                                            <option value="puno">Puno</option>
+                                            <option value="sanmartin">San Martín</option>
+                                            <option value="tacna">Tacna</option>
+                                            <option value="tumbes">Tumbes</option>
+                                            <option value="ucayali">Ucayali</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="mb-3 mb-md-0">
+                                        <select id="provincia" class="custom-select px-4" style="height: 47px;">
+                                            <option selected >Provincia</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="mb-3 mb-md-0">
+                                        <select id="distrito" class="custom-select px-4" style="height: 47px;">
+                                            <option selected>Distrito</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 mb-md-0">
+                                    <input type="text" id="referencia" class="form-control px-4" style="height: 47px; max-width: 200px;" placeholder="Referencia" oninput="validarInput(this)">
+                                </div>                        
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-danger btn-block" type="submit" style="height: 47px; margin-top: -2px;" onclick="mostrarUbicacion()">Consultar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- Seleccion-->   
+
+   <!-- Mapa -->
+   <div id="map"></div>
+
+   <script>
+        var map = L.map('map', {center: [-9.1900, -75.0152], // Centrado en el Perú
+        zoom: 6,
+        scrollWheelZoom: false // Deshabilita el zoom con la rueda del ratón
+        });
+
+       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+           attribution: '© OpenStreetMap contributors'
+       }).addTo(map);
+
+       // Cargar el archivo JSON de departamentos
+        fetch('js\departamento.js')
+        .then(response => response.json())
+        .then(data => {
+            // Usar los datos cargados
+            console.log(data);
+        })
+        .catch(error => console.error('Error cargando el archivo JSON:', error));
+
+       // Almacena una referencia al marcador actual
+       var marker;
+       // Llena dinámicamente las opciones de provincia según el departamento seleccionado
+       $("#departamento").change(function() {
+           var departamentoSeleccionado = $(this).val();
+           var provincias = departamentos[departamentoSeleccionado].provincias;
+
+           // Limpia el select de provincias
+           $("#provincia").empty();
+           $("#distrito").empty(); // Limpia también el select de distritos al cambiar el departamento
+
+           // Llena las opciones de provincia
+           $.each(provincias, function(provincia, distritos) {
+               $("#provincia").append('<option value="' + provincia + '">' + provincia + '</option>');
+           });
+
+           // Dispara el evento change para la provincia
+           $("#provincia").trigger("change");
+       });
+
+       // Llena dinámicamente las opciones de distrito según la provincia seleccionada
+       $("#provincia").change(function() {
+           var departamentoSeleccionado = $("#departamento").val();
+           var provinciaSeleccionada = $(this).val();
+           var distritos = departamentos[departamentoSeleccionado].provincias[provinciaSeleccionada];
+
+           // Limpia el select de distritos
+           $("#distrito").empty();
+
+           // Llena las opciones de distrito
+           $.each(distritos, function(distrito, coordenadas) {
+               $("#distrito").append('<option value="' + distrito + '">' + distrito + '</option>');
+           });
+       });
+
+       // Función para mostrar la ubicación en el mapa
+       function mostrarUbicacion() {
+        var departamento = $("#departamento").val();
+           var provincia = $("#provincia").val();
+           var distrito = $("#distrito").val();
+           var referencia = $("#referencia").val();
+
+           // Obtén las coordenadas del distrito seleccionado
+           var coordenadas = departamentos[departamento].provincias[provincia][distrito];
+
+           // Elimina el marcador existente, si hay alguno
+           if (marker) {
+               map.removeLayer(marker);
+           }
+
+           // Muestra un nuevo marcador en el mapa
+           marker = L.marker(coordenadas).addTo(map)
+               .bindPopup(`<b>${departamento}, ${provincia}, ${distrito}</b><br>${referencia}`)
+               .openPopup();
+
+           // Centra el mapa en la ubicación
+           map.panTo(coordenadas);
+           var fechaConsulta = obtenerFechaActual(); // Puedes ajustar esto según tus necesidades
+            var distritoSeleccionado = $("#distrito").val();
+            var fechaEmisionOrden = obtenerFechaEmisionOrden(); // Puedes ajustar esto según tus necesidades
+
+            // Actualiza el contenido dinámico en el área de información
+            $("#distrito-info").text(distritoSeleccionado);
+            $("#fecha-consulta-info").text(fechaConsulta);
+            $("#fecha-emision-orden-info").text(fechaEmisionOrden);
+
+       }
+
+ 
+       function obtenerFechaActual() {
+            var fecha = new Date();
+            return fecha.toLocaleDateString() + ', ' + fecha.toLocaleTimeString();
+        }
+
+        // Función para obtener la fecha de emisión de la orden (puedes ajustar según tus necesidades)
+        function obtenerFechaEmisionOrden() {
+            var fechaEmision = new Date(2023, 10, 23, 15, 30); // Año, mes (0-11), día, hora, minuto
+            return fechaEmision.toLocaleDateString() + ', ' + fechaEmision.toLocaleTimeString();
+        }
+        function actualizarMensajeActualizacion() {
+        var distritoInfo = $("#distrito-info").text().trim();
+        var alertMessage = $("#alertMessage");
+
+        if (distritoInfo !== "") {
+            // Si hay un distrito seleccionado, muestra el mensaje de actualización
+            alertMessage.text("No hay actualizaciones pendientes.").css("color", "red").show();
+        } else {
+            // Si no hay distrito seleccionado, oculta el mensaje de actualización
+            alertMessage.hide();
+        }
+        }
+        fetch('js\estado_emergencia.js')
+        .then(response => response.json())
+        .then(data => {
+            // Usar los datos cargados
+            console.log(datos);
+        })
+        .catch(error => console.error('Error cargando el archivo JSON:', error));
+
+        function verificarEmergencia() {
+            var departamentoIngresado = $("#departamento").val().trim().toLowerCase();
+            var provinciaIngresada = $("#provincia").val().trim().toLowerCase();
+            var distritoIngresado = $("#distrito").val().trim().toLowerCase();
+
+            // Filtra los lugares de emergencia que coincidan con los valores ingresados
+            var lugaresEnEmergencia = datos.filter(function (lugar) {
+                return (
+                    lugar.departamento.toLowerCase() === departamentoIngresado &&
+                    lugar.provincia.toLowerCase() === provinciaIngresada &&
+                    lugar.distrito.toLowerCase() === distritoIngresado
+                );
+            });
+
+            // Muestra el resultado en el recuadro
+            var mensaje = lugaresEnEmergencia.length > 0
+                ? "¡Su distrito está en emergencia!"
+                : "Su distrito no está en emergencia.";
+            // Muestra el mensaje en el recuadro de emergencia
+            $("#alertMessage").html(mensaje);
+            $("#emergencia").show();
+            };    
+        </script>
+
+   <br>
+   <br>
+   <br> 
+    </div>
+    <div id="info-container" style="margin-left: 5cm; margin-right: 5cm; display: flex; align-items: center; justify-content: space-between;">
+        <div>
+            <h3>Reporte</h3>
+            <p>* La información se actualizará simultáneamente de acuerdo al distrito seleccionado.</p>
+            <p>Distrito: <span id="distrito-info"></span></p>
+            <p>Fecha de consulta: <span id="fecha-consulta-info"></span></p>
+            <p>Fecha de Emisión de la Orden: <span id="fecha-emision-orden-info"></span></p>
+        </div>
+        <button class="btn btn-danger btn-block" type="button" onclick="pedirAyuda()" style="height: 47px; margin-top: -2px; width: 180px">Pedir Ayuda</button>
+    </div>
+
+   <!-- Funciones_leer -->
+   <script>
+    // Función para leer el contenido
+    function leerContenido2() {
+    // Obtener el contenido que se desea leer
+    var contenido = "Tu participación es esencial para construir un sistema de ayuda más efectivo durante fenómenos. Cada experiencia compartida contribuye a crear soluciones más sólidas. ¡Anímate a ser parte del cambio y hacer la diferencia! Tu voz cuenta y marca la pauta para un futuro más seguro y resiliente. ¡Gracias por formar parte de este importante proceso de mejora!";
+
+    
+    // Crear un nuevo objeto de síntesis de voz
+    var synth = window.speechSynthesis;
+    
+    // Crear un nuevo mensaje de síntesis de voz
+    var utterance = new SpeechSynthesisUtterance(contenido);
+    
+    // Reproducir el mensaje (Prueba8)
+    synth.speak(utterance);
+    }
+    </script>
+    <!-- Funciones_leer -->
+
+    <form method="POST" action="ingreso.php">
+        <!-- Registro Inicio -->
+        <div class="container-fluid bg-danger py-5" style="margin: 90px 0;">
+            <div class="container py-5">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 mb-5 mb-lg-0">
+                        <div class="mb-4">
+                            <button id="leerPaginasOficiales" onclick="leerContenido2()" aria-label="Leer Paginas Oficiales" style="font-size: 24px; background: none; border: none; cursor: pointer;">
+                                🔊
+                            </button>
+                            <h6 class="text-primary text-uppercase" style="letter-spacing: 5px;">Pedir Ayuda</h6>
+                            <h1 class="text-white"> Ayuda por Fenómenos</h1>
+                        </div>
+                        <p class="text-white" style="text-align: justify; margin: 0 1cm;">
+                            Tu participación es esencial para construir un sistema de ayuda más efectivo durante fenómenos. Cada experiencia compartida contribuye a crear soluciones más sólidas. ¡Anímate a ser parte del cambio y hacer la diferencia! Tu voz cuenta y marca la pauta para un futuro más seguro y resiliente. ¡Gracias por formar parte de este importante proceso de mejora!
+                        </p>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="card border-0">
+                            <div class="card-header bg-danger text-center p-4">
+                            </div>
+                            <div class="card-body rounded-bottom bg-white p-5" style="max-height: 400px; overflow-y: auto;">
+                                <form id="surveyForm" onsubmit="return validateForm()">
+                                    <div class="form-group">
+                                        <label for="dni">DNI:</label>
+                                        <input type="text" id="dni" class="form-control p-4" placeholder="Ingrese su DNI" pattern="[0-9]{8}" title="Ingrese exactamente 8 dígitos numéricos sin espacios ni caracteres especiales" required="required" />
+                                        <span id="dniError" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="verificationCode">Código de Verificación:</label>
+                                        <input type="text" id="verificationCode" class="form-control p-4" placeholder="Ingrese el código de verificación" pattern="\d" title="Ingrese solo un dígito numérico sin espacios ni caracteres especiales" required="required" />
+                                        <span id="verificationCodeError" class="text-danger"></span>
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="helpType">Tipo de Ayuda:</label>
+                                        <select id="helpType" class="custom-select px-4" style="height: 47px;" required="required">
+                                            <option value="" disabled selected>Seleccione una ayuda</option>
+                                            <option value="Comida">Comida</option>
+                                            <option value="Salud">Salud</option>
+                                            <option value="ExtraccionAgua">Extracción de Agua</option>
+                                            <option value="Refugio">Refugio</option>
+                                            <option value="AsistenciaMedica">Asistencia Médica</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="question1">1. ¿Cómo califica la ayuda brindada?</label>
+                                        <select class="custom-select px-4" style="height: 47px;" id="question1" required="required">
+                                            <option value="" disabled selected>Seleccione una opción</option>
+                                            <option value="5">Muy Satisfecho</option>
+                                            <option value="4">Satisfecho</option>
+                                            <option value="3">Neutral</option>
+                                            <option value="2">Insatisfecho</option>
+                                            <option value="1">Muy Insatisfecho</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="question2">2. ¿Llegó en el periodo estimado?</label>
+                                        <select class="custom-select px-4" style="height: 47px;" id="question2" required="required">
+                                            <option value="" disabled selected>Seleccione una opción</option>
+                                            <option value="Sí">Sí</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="question3">3. ¿En qué nivel de emergencia considera que se encuentra?</label>
+                                        <select class="custom-select px-4" style="height: 47px;" id="question3" required="required">
+                                            <option value="" disabled selected>Seleccione una opción</option>
+                                            <option value="5">Muy Crítico</option>
+                                            <option value="4">Crítico</option>
+                                            <option value="3">Moderado</option>
+                                            <option value="2">Leve</option>
+                                            <option value="1">Sin Emergencia</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="question4">4. ¿Cubrió la necesidad que presentabas?</label>
+                                        <select class="custom-select px-4" style="height: 47px;" id="question4" required="required">
+                                            <option value="" disabled selected>Seleccione una opción</option>
+                                            <option value="Sí">Sí</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="question5">5. ¿Hubo algún problema durante la ayuda? (Opcional)</label>
+                                        <select class="custom-select px-4" style="height: 47px;" id="question5">
+                                            <option value="" disabled selected>Seleccione una opción</option>
+                                            <option value="Sí">Sí</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-danger btn-block py-3" type="submit" id="Enviar" name="accion" value="Enviar">Enviar Encuesta</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    
+    <!-- Registro Fin -->
+
+    <script>
+        function validateForm() {
+            var dniInput = document.getElementById("dni");
+            var verificationCodeInput = document.getElementById("verificationCode");
+
+            // Verificar si ya se ha registrado una encuesta con el mismo DNI y Código de Validación
+            var lastSurveyTimeKey = "lastSurveyTime_" + dniInput.value + "_" + verificationCodeInput.value;
+            var lastSurveyTime = localStorage.getItem(lastSurveyTimeKey);
+
+            if (lastSurveyTime) {
+                var oneWeekAgo = new Date();
+                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+                if (new Date(lastSurveyTime) > oneWeekAgo) {
+                    alert("Ya has registrado una encuesta esta semana. Gracias por tu participación.");
+                    return false;
+                }
+            }
+
+            // Validación del DNI
+            var dniError = document.getElementById("dniError");
+            if (!dniInput.checkValidity()) {
+                dniError.textContent = "Ingrese exactamente 8 dígitos numéricos sin espacios ni caracteres especiales.";
+                return false;
+            } else {
+                dniError.textContent = "";
+            }
+
+            // Validación del Código de Verificación
+            var verificationCodeError = document.getElementById("verificationCodeError");
+            if (!verificationCodeInput.checkValidity()) {
+                verificationCodeError.textContent = "Ingrese solo un dígito numérico sin espacios ni caracteres especiales.";
+                return false;
+            } else {
+                verificationCodeError.textContent = "";
+            }
+
+            // Validación de la ayuda seleccionada
+            var helpTypeInput = document.getElementById("helpType");
+            if (helpTypeInput.value === "") {
+                alert("Seleccione un tipo de ayuda.");
+                return false;
+            }
+
+            // Validación de todas las preguntas
+            for (var i = 1; i <= 5; i++) {
+                var questionInput = document.getElementById("question" + i);
+                if (questionInput.value === "") {
+                    alert("Seleccione una opción para la Pregunta " + i + ".");
+                    return false;
+                }
+            }
+
+            // Almacenar la hora actual como la última vez que se realizó una encuesta
+            localStorage.setItem(lastSurveyTimeKey, new Date().toISOString());
+
+            return true;
+        }
+    </script>
+
+       <!-- Funciones_leer -->
+       <script>
+        // Función para leer el contenido
+        function leerContenido() {
+            // Obtener el contenido que se desea leer
+            var contenido = "Paginas Oficiales. SENAHMI, INDECI, IMARPE, SIGRID, CENEPRED, MEF.";
+    
+            // Crear un nuevo objeto de síntesis de voz
+            var synth = window.speechSynthesis;
+    
+            // Crear un nuevo mensaje de síntesis de voz
+            var utterance = new SpeechSynthesisUtterance(contenido);
+    
+            // Reproducir el mensaje
+            synth.speak(utterance);
+            }
+        </script>
+       <!-- Funciones_leer -->
+
+    <!-- Paginas_Oficiales -->
+    <div class="container-fluid py-5">
+        <div class="container pt-5 pb-3">
+            <div class="text-center mb-3 pb-3">
+                <h6 class="text-danger text-uppercase" style="letter-spacing: 5px;">Paginas</h6>
+                <h1>Oficiales</h1>
+                <button id="leerPaginasOficiales" onclick="leerContenido()" aria-label="Leer Paginas Oficiales" style="font-size: 24px; background: none; border: none; cursor: pointer;">
+                    🔊
+                </button>
+                
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="destination-item position-relative overflow-hidden mb-2">
+                            <img class="img-fluid" src="img/logo_entidad_1.jpg" alt="">
+                            <a class="destination-overlay text-white text-decoration-none" href="https://www.senamhi.gob.pe/?p=pronostico-meteorologico">
+                                <h5 class="text-white font-weight-bold">SENAHMI</h5>
+                                <span class="text-center">Servicio Nacional de Meteorología e Hidrología del Perú</span>
+                            </a>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="destination-item position-relative overflow-hidden mb-2">
+                        <img class="img-fluid" src="img/logo_entidad_2.jpg" alt="">
+                        <a class="destination-overlay text-white text-decoration-none" href="https://www.mef.gob.pe/es/?option=com_content&language=es-ES&Itemid=101574&lang=es-ES&view=article&id=2366">
+                            <h5 class="text-white font-weight-bold">INDECI</h5>
+                            <span>Instituto Nacional de Defensa Civil</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="destination-item position-relative overflow-hidden mb-2">
+                        <img class="img-fluid" src="img/logo_entidad_3.jpg" alt="">
+                        <a class="destination-overlay text-white text-decoration-none" href="https://www.imarpe.gob.pe/imarpe/detallereport.php">
+                            <h5 class="text-white font-weight-bold">IMARPE</h5>
+                            <span>Instituto del Mar del Perú</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="destination-item position-relative overflow-hidden mb-2">
+                        <img class="img-fluid" src="img/logo_entidad_4.jpg" alt="">
+                        <a class="destination-overlay text-white text-decoration-none" href="https://sigrid.cenepred.gob.pe/sigridv3/">
+                            <h5 class="text-white font-weight-bold">SIGRID</h5>
+                            <span class="text-center">Sistema de Información Geográfica para la Gestión del Riesgo de Desastres</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="destination-item position-relative overflow-hidden mb-2">
+                        <img class="img-fluid" src="img/logo_entidad_5.jpg" alt="">
+                        <a class="destination-overlay text-white text-decoration-none" href="https://www.cenepred.gob.pe/web/preguntas-frecuentes/">
+                            <h5 class="text-white font-weight-bold">CENEPRED</h5>
+                            <span class="text-center">Centro Nacional de Estimación, Prevención y Reducción del Riesgo de Desastres</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="destination-item position-relative overflow-hidden mb-2">
+                        <img class="img-fluid" src="img/logo_entidad_6.jpg" alt="">
+                        <a class="destination-overlay text-white text-decoration-none" href="https://www.mef.gob.pe/es/?option=com_content&language=es-ES&Itemid=101574&lang=es-ES&view=article&id=2366">
+                            <h5 class="text-white font-weight-bold">MEF</h5>
+                            <span class="text-center">Ministerio de Economía y Finanzas</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Pagina_oficial -->
+
+    <!-- Pie de pagina -->
+    <div class="container-fluid bg-dark text-white-50 py-5 px-sm-3 px-lg-5" style="margin-top: 90px;">
+        <div class="row pt-5">
+            <div class="col-lg-3 col-md-6 mb-5">
+                <a href="" class="navbar-brand">
+                    <h1 class="text-primary"><span class="text-white">ALERTA </span><span class="text-danger">ÑAWI</span></h1>
+                </a>
+                <p>Teléfono:</p>
+                <p>(01) 330 3000 Anexo 3411, 3484</p>
+                <p>974 890720</p>
+                <h6 class="text-white text-uppercase mt-4 mb-3" style="letter-spacing: 5px;">SIGUENOS</h6>
+                <div class="d-flex justify-content-start">
+                    <a class="btn btn-outline-danger btn-square mr-2" href="#"><i class="fab fa-twitter text-danger"></i></a>
+                    <a class="btn btn-outline-danger btn-square mr-2" href="#"><i class="fab fa-facebook-f text-danger"></i></a>
+                    <a class="btn btn-outline-danger btn-square mr-2" href="#"><i class="fab fa-linkedin-in text-danger"></i></a>
+                    <a class="btn btn-outline-danger btn-square" href="#"><i class="fab fa-instagram text-danger"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">OPCIONES</h5>
+                <div class="d-flex flex-column justify-content-start">
+                    <a class="text-white-50 mb-2" href="https://www.gob.pe/institucion/contraloria/informes-publicaciones/3985499-directorio-de-especialistas-regionales-monitores-ciudadanos-de-control">
+                        <i class="fa fa-angle-right mr-2"></i>Directorio de Especialistas Regionales
+                    </a>                    
+
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;"></h5>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h5 class="text-white text-uppercase mb-4" style="letter-spacing: 5px;">OPCIONES</h5>
+                <div class="w-100">
+                    <div class="input-group">
+                        <textarea class="form-control border-light" style="resize: none;" rows="4" placeholder="Escribe tus comentarios aquí..."></textarea>
+                        <div class="input-group-append">
+                            <button class="btn btn-danger px-4">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   <!-- Pie de pagina_final -->
+
+
+    <!-- Barra desplazadora -->
+    <a href="#" class="btn btn-lg btn-danger btn-lg-square back-to-top">
+        <i class="fa fa-angle-double-up text-white"></i>
+    </a>
+
+    <!-- Librerias-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
